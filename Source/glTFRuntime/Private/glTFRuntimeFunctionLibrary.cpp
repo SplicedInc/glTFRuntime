@@ -59,10 +59,12 @@ void UglTFRuntimeFunctionLibrary::glTFLoadAssetFromFilenameAsync(const FString& 
 		OverrideConfig.bSearchContentDir = true;
 	}
 
-	Async(EAsyncExecution::Thread, [Filename, Asset, Completed, OverrideConfig]()
-		{
-			TSharedPtr<FglTFRuntimeParser> Parser = FglTFRuntimeParser::FromFilename(Filename, OverrideConfig);
+	// The parser is currently creating and referencing various UObjects, so it may not run on a worker thread,
+	// or it will interfere with the GC. See also related open Github issue: https://github.com/rdeioris/glTFRuntime/issues/39
+	TSharedPtr<FglTFRuntimeParser> Parser = FglTFRuntimeParser::FromFilename(Filename, OverrideConfig);
 
+	Async(EAsyncExecution::Thread, [Parser, Asset, Completed]()
+		{
 
 			FGraphEventRef Task = FFunctionGraphTask::CreateAndDispatchWhenReady([Parser, Asset, Completed]()
 				{
