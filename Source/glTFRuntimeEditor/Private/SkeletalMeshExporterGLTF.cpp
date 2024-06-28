@@ -3,6 +3,7 @@
 #include "SkeletalMeshExporterGLTF.h"
 #include "Rendering/SkeletalMeshRenderData.h"
 
+#if 0 // We already have an exporter from epic. Registering multiple causes issues.
 USkeletalMeshExporterGLTF::USkeletalMeshExporterGLTF(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
@@ -146,3 +147,4 @@ bool USkeletalMeshExporterGLTF::ExportText(const FExportObjectInnerContext* Cont
 
 	return true;
 }
+#endif
