@@ -26,6 +26,8 @@
 #include "RenderUtils.h"
 #endif
 
+#include "glTFRuntimeAssetUserData.h"
+
 DEFINE_LOG_CATEGORY(LogGLTFRuntime);
 
 FglTFRuntimeOnPreLoadedPrimitive FglTFRuntimeParser::OnPreLoadedPrimitive;
@@ -153,6 +155,7 @@ TSharedPtr<FglTFRuntimeParser> FglTFRuntimeParser::FromRawDataAndArchive(const u
 		{
 			NewParser->AsBlob.Append(DataPtr, DataNum);
 			NewParser->Archive = InArchive;
+			NewParser->AssetUserDataClasses = LoaderConfig.AssetUserDataClasses;
 		}
 		return NewParser;
 	}
@@ -640,6 +643,7 @@ TSharedPtr<FglTFRuntimeParser> FglTFRuntimeParser::FromString(const FString& Jso
 		}
 		Parser->DefaultPrefixForUnnamedNodes = LoaderConfig.PrefixForUnnamedNodes;
 		Parser->Archive = InArchive;
+		Parser->AssetUserDataClasses = LoaderConfig.AssetUserDataClasses;
 	}
 
 	return Parser;
@@ -4643,6 +4647,13 @@ bool FglTFRuntimeParser::GetAccessor(const int32 Index, int64& ComponentType, in
 		}
 		Blob.Data = AdditionalBufferView->Data;
 		Blob.Num = FinalSize;
+
+		// special case for bigger buffers
+		if (FinalSize < AdditionalBufferView->Num && (AdditionalBufferView->Num % (ElementSize * Elements)) == 0)
+		{
+			Count = AdditionalBufferView->Num / (ElementSize * Elements);
+		}
+
 		if (!bHasSparse)
 		{
 			Stride = ElementSize * Elements;
@@ -5523,6 +5534,26 @@ TArray<TSharedRef<FJsonObject>> FglTFRuntimeParser::GetMeshPrimitives(TSharedRef
 	}
 
 	return Primitives;
+}
+
+TArray<TSharedRef<FJsonObject>> FglTFRuntimeParser::GetMaterials() const
+{
+	TArray<TSharedRef<FJsonObject>> Materials;
+
+	const TArray<TSharedPtr<FJsonValue>>* JsonArray;
+	if (Root->TryGetArrayField(TEXT("materials"), JsonArray))
+	{
+		for (TSharedPtr<FJsonValue> JsonValue : *JsonArray)
+		{
+			const TSharedPtr<FJsonObject>* JsonObject;
+			if (JsonValue->TryGetObject(JsonObject))
+			{
+				Materials.Add(JsonObject->ToSharedRef());
+			}
+		}
+	}
+
+	return Materials;
 }
 
 TSharedPtr<FJsonObject> FglTFRuntimeParser::GetJsonObjectExtras(TSharedRef<FJsonObject> JsonObject) const
@@ -6501,4 +6532,18 @@ bool FglTFRuntimeArchiveMap::GetFileContent(const FString& Filename, TArray64<ui
 	OutData = MapItems[OffsetsMap[Filename]];
 
 	return true;
+}
+
+void FglTFRuntimeParser::FillAssetUserData(const int32 Index, IInterface_AssetUserData* InObject)
+{
+	for (TSubclassOf<UglTFRuntimeAssetUserData> AssetUserDataClass : AssetUserDataClasses)
+	{
+		if (AssetUserDataClass)
+		{
+			UglTFRuntimeAssetUserData* AssetUserData = NewObject<UglTFRuntimeAssetUserData>(InObject->_getUObject(), AssetUserDataClass, NAME_None, RF_Public);
+			AssetUserData->SetParser(AsShared());
+			AssetUserData->ReceiveFillAssetUserData(Index);
+			InObject->AddAssetUserData(AssetUserData);
+		}
+	}
 }

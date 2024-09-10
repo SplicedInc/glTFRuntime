@@ -817,6 +817,13 @@ int32 UglTFRuntimeAsset::GetArraySizeFromPath(const TArray<FglTFRuntimePathItem>
 	return Parser->GetJSONArraySizeFromPath(Path, bFound);
 }
 
+FVector4 UglTFRuntimeAsset::GetVectorFromPath(const TArray<FglTFRuntimePathItem>& Path, bool& bFound) const
+{
+	GLTF_CHECK_PARSER(FVector4(0, 0, 0, 0));
+	return Parser->GetJSONVectorFromPath(Path, bFound);
+}
+
+
 bool UglTFRuntimeAsset::LoadAudioEmitter(const int32 EmitterIndex, FglTFRuntimeAudioEmitter& Emitter)
 {
 	GLTF_CHECK_PARSER(false);
@@ -1292,6 +1299,12 @@ bool UglTFRuntimeAsset::LoadSkinnedMeshRecursiveAsRuntimeLOD(const FString& Node
 	return Parser->LoadSkinnedMeshRecursiveAsRuntimeLOD(NodeName, SkinIndex, ExcludeNodes, RuntimeLOD, MaterialsConfig, SkeletonConfig, TransformApplyRecursiveMode);
 }
 
+void UglTFRuntimeAsset::LoadSkinnedMeshRecursiveAsRuntimeLODAsync(const FString& NodeName, const TArray<FString>& ExcludeNodes, const FglTFRuntimeMeshLODAsync& AsyncCallback, const FglTFRuntimeMaterialsConfig& MaterialsConfig, const FglTFRuntimeSkeletonConfig& SkeletonConfig, int32& SkinIndex, const int32 OverrideSkinIndex, const EglTFRuntimeRecursiveMode TransformApplyRecursiveMode)
+{
+	GLTF_CHECK_PARSER_VOID();
+	Parser->LoadSkinnedMeshRecursiveAsRuntimeLODAsync(NodeName, SkinIndex, ExcludeNodes, AsyncCallback, MaterialsConfig, SkeletonConfig, TransformApplyRecursiveMode);
+}
+
 USkeletalMesh* UglTFRuntimeAsset::LoadSkeletalMeshFromRuntimeLODs(const TArray<FglTFRuntimeMeshLOD>& RuntimeLODs, const int32 SkinIndex, const FglTFRuntimeSkeletalMeshConfig& SkeletalMeshConfig)
 {
 	GLTF_CHECK_PARSER(nullptr);
@@ -1399,6 +1412,7 @@ bool UglTFRuntimeAsset::GetNodeGPUInstancingTransforms(const int32 NodeIndex, TA
 
 	for (int32 Index = 0; Index < Scales.Num(); Index++)
 	{
+		Transforms[Index].NormalizeRotation();
 		Transforms[Index] = Parser->RebaseTransform(Transforms[Index]);
 	}
 
