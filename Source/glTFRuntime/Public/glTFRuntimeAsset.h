@@ -179,7 +179,7 @@ public:
 	bool SetParser(TSharedRef<FglTFRuntimeParser> InParser);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> MaterialsMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> MaterialsMap;
 
 	UPROPERTY(BlueprintAssignable, Category = "glTFRuntime")
 	FglTFRuntimeError OnError;
@@ -278,7 +278,7 @@ public:
 	TArray<FString> GetMaterialsVariants() const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* RuntimeContextObject;
+	TObjectPtr<UObject> RuntimeContextObject;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	FString RuntimeContextString;

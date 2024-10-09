@@ -412,7 +412,7 @@ void AglTFRuntimeAssetActor::SetCurveAnimationByName(const FString& CurveAnimati
 		return;
 	}
 
-	for (TPair<USceneComponent*, UglTFRuntimeAnimationCurve*>& Pair : CurveBasedAnimations)
+	for (auto& Pair : CurveBasedAnimations)
 	{
 
 		TMap<FString, UglTFRuntimeAnimationCurve*> WantedCurveAnimationsMap = DiscoveredCurveAnimations[Pair.Key];
@@ -435,7 +435,7 @@ void AglTFRuntimeAssetActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	for (TPair<USceneComponent*, UglTFRuntimeAnimationCurve*>& Pair : CurveBasedAnimations)
+	for (auto& Pair : CurveBasedAnimations)
 	{
 		// the curve could be null
 		if (!Pair.Value)

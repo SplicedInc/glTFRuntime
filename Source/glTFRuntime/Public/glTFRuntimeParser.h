@@ -186,7 +186,7 @@ struct FglTFRuntimeConfig
 	bool bSearchContentDir;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* RuntimeContextObject;
+	TObjectPtr<UObject> RuntimeContextObject;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	FString RuntimeContextString;
@@ -532,19 +532,19 @@ struct FglTFRuntimeMaterialsConfig
 	EglTFRuntimeCacheMode CacheMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> UberMaterialsOverrideMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> UberMaterialsOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<int32, UMaterialInterface*> MaterialsOverrideMap;
+	TMap<int32, TObjectPtr<UMaterialInterface>> MaterialsOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<FString, UMaterialInterface*> MaterialsOverrideByNameMap;
+	TMap<FString, TObjectPtr<UMaterialInterface>> MaterialsOverrideByNameMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<int32, UTexture2D*> TexturesOverrideMap;
+	TMap<int32, TObjectPtr<UTexture2D>> TexturesOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<int32, UTexture2D*> ImagesOverrideMap;
+	TMap<int32, TObjectPtr<UTexture2D>> ImagesOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	bool bDisableVertexColors;
@@ -574,7 +574,7 @@ struct FglTFRuntimeMaterialsConfig
 	bool bSkipLoad;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UMaterialInterface* VertexColorOnlyMaterial;
+	TObjectPtr<UMaterialInterface> VertexColorOnlyMaterial;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	TMap<FString, float> ScalarParamsOverrides;
@@ -583,7 +583,7 @@ struct FglTFRuntimeMaterialsConfig
 	bool bLoadMipMaps;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UMaterialInterface* ForceMaterial;
+	TObjectPtr<UMaterialInterface> ForceMaterial;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	bool bSkipPoints;
@@ -592,7 +592,7 @@ struct FglTFRuntimeMaterialsConfig
 	EglTFRuntimePointsTriangulationMode PointsTriangulationMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UMaterialInterface* PointsBaseMaterial;
+	TObjectPtr<UMaterialInterface> PointsBaseMaterial;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	float PointsScaleFactor;
@@ -604,7 +604,7 @@ struct FglTFRuntimeMaterialsConfig
 	EglTFRuntimeLinesTriangulationMode LinesTriangulationMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UMaterialInterface* LinesBaseMaterial;
+	TObjectPtr<UMaterialInterface> LinesBaseMaterial;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	float LinesScaleFactor;
@@ -616,28 +616,28 @@ struct FglTFRuntimeMaterialsConfig
 	TMap<FString, FLinearColor> CustomVectorParams;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<FString, UTexture*> CustomTextureParams;
+	TMap<FString, TObjectPtr<UTexture>> CustomTextureParams;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	bool bAddEpicInterchangeParams;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> MetallicRoughnessOverrideMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> MetallicRoughnessOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> SpecularGlossinessOverrideMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> SpecularGlossinessOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> ClearCoatOverrideMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> ClearCoatOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> TransmissionOverrideMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> TransmissionOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> UnlitOverrideMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> UnlitOverrideMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TMap<EglTFRuntimeMaterialType, UMaterialInterface*> SheenOverrideMap;
+	TMap<EglTFRuntimeMaterialType, TObjectPtr<UMaterialInterface>> SheenOverrideMap;
 
 	FglTFRuntimeMaterialsConfig()
 	{
@@ -696,7 +696,7 @@ struct FglTFRuntimeStaticMeshConfig
 	EglTFRuntimePivotPosition PivotPosition;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* Outer;
+	TObjectPtr<UObject> Outer;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	FglTFRuntimeMaterialsConfig MaterialsConfig;
@@ -732,7 +732,7 @@ struct FglTFRuntimeStaticMeshConfig
 	TMap<FString, FString> CustomConfigMap;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	TArray<UDataAsset*> CustomConfigObjects;
+	TArray<TObjectPtr<UDataAsset>> CustomConfigObjects;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	float LODScreenSizeMultiplier;
@@ -837,7 +837,7 @@ struct FglTFRuntimeSkeletonBoneRemapperHook
 	FglTFRuntimeBoneRemapper Remapper;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* Context = nullptr;
+	TObjectPtr<UObject> Context = nullptr;
 };
 
 
@@ -877,7 +877,7 @@ struct FglTFRuntimeSkeletonConfig
 	bool bClearRotations;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	USkeleton* CopyRotationsFrom;
+	TObjectPtr<USkeleton> CopyRotationsFrom;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	bool bSkipAlreadyExistentBoneNames;
@@ -1106,7 +1106,7 @@ struct FglTFRuntimeBoneBoundsFilterHook
 	FglTFRuntimeBoneBoundsFilter Filter;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* Context = nullptr;
+	TObjectPtr<UObject> Context = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1118,7 +1118,7 @@ struct FglTFRuntimeSkeletalMeshConfig
 	EglTFRuntimeCacheMode CacheMode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	USkeleton* Skeleton;
+	TObjectPtr<USkeleton> Skeleton;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	bool bOverwriteRefSkeleton;
@@ -1157,7 +1157,7 @@ struct FglTFRuntimeSkeletalMeshConfig
 	TMap<FString, FglTFRuntimePhysicsBody> PhysicsBodies;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* Outer;
+	TObjectPtr<UObject> Outer;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	FString SaveToPackage;
@@ -1181,7 +1181,7 @@ struct FglTFRuntimeSkeletalMeshConfig
 	bool bUseHighPrecisionUVs;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UPhysicsAsset* PhysicsAssetTemplate;
+	TObjectPtr<UPhysicsAsset> PhysicsAssetTemplate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	bool bAddVirtualBones;
@@ -1268,7 +1268,7 @@ struct FglTFRuntimeSkeletalAnimationCurveRemapperHook
 	FglTFRuntimeAnimationCurveRemapper Remapper;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* Context = nullptr;
+	TObjectPtr<UObject> Context = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1280,7 +1280,7 @@ struct FglTFRuntimeSkeletalAnimationFrameTranslationRemapperHook
 	FglTFRuntimeAnimationFrameTranslationRemapper Remapper;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* Context = nullptr;
+	TObjectPtr<UObject> Context = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1292,7 +1292,7 @@ struct FglTFRuntimeSkeletalAnimationFrameRotationRemapperHook
 	FglTFRuntimeAnimationFrameRotationRemapper Remapper;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UObject* Context = nullptr;
+	TObjectPtr<UObject> Context = nullptr;
 };
 
 USTRUCT(BlueprintType)
@@ -1337,10 +1337,10 @@ struct FglTFRuntimeSkeletalAnimationConfig
 	FglTFRuntimeSkeletalAnimationCurveRemapperHook CurveRemapper;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	USkeleton* RetargetTo;
+	TObjectPtr<USkeleton> RetargetTo;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	USkeletalMesh* RetargetToSkeletalMesh;
+	TObjectPtr<USkeletalMesh> RetargetToSkeletalMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
 	TMap<FString, FTransform> TransformPose;
@@ -1364,7 +1364,7 @@ struct FglTFRuntimeSkeletalAnimationConfig
 	int32 RetargetSkinIndex;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	UPoseAsset* PoseForRetargeting;
+	TObjectPtr<UPoseAsset> PoseForRetargeting;
 
 	FglTFRuntimeSkeletalAnimationConfig()
 	{
@@ -2073,7 +2073,7 @@ struct FglTFRuntimeAudioEmitter
 	float Volume;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "glTFRuntime")
-	USoundBase* Sound;
+	TObjectPtr<USoundBase> Sound;
 
 	FglTFRuntimeAudioEmitter()
 	{

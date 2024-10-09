@@ -26,5 +26,5 @@ public:
 
 
 	UPROPERTY()
-	UAnimSequence* AnimSequence = nullptr;
+	TObjectPtr<UAnimSequence> AnimSequence = nullptr;
 };
