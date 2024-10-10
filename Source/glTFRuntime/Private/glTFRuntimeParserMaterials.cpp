@@ -895,7 +895,7 @@ UMaterialInterface* FglTFRuntimeParser::BuildMaterial(const int32 Index, const F
 		Material->SetVectorParameterValue(*Pair.Key, Pair.Value);
 	}
 
-	for (const TPair<FString, UTexture*>& Pair : MaterialsConfig.CustomTextureParams)
+	for (const auto& Pair : MaterialsConfig.CustomTextureParams)
 	{
 		Material->SetTextureParameterValue(*Pair.Key, Pair.Value);
 	}
