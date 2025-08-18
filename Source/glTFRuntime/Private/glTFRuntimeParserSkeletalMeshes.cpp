@@ -1044,14 +1044,13 @@ USkeletalMesh* FglTFRuntimeParser::FinalizeSkeletalMeshWithLODs(TSharedRef<FglTF
 
 		for (int32 MatIndex = 0; MatIndex < SkeletalMeshContext->LODs[LODIndex]->Primitives.Num(); MatIndex++)
 		{
-			LODInfo.LODMaterialMap.Add(MatIndex);
-
 #if ENGINE_MAJOR_VERSION > 4 || ENGINE_MINOR_VERSION >= 27
 			TArray<FSkeletalMaterial>& SkeletalMaterials = SkeletalMeshContext->SkeletalMesh->GetMaterials();
 #else
 			TArray<FSkeletalMaterial>& SkeletalMaterials = SkeletalMeshContext->SkeletalMesh->Materials;
 #endif
 			int32 NewMatIndex = SkeletalMaterials.Add(SkeletalMeshContext->LODs[LODIndex]->Primitives[MatIndex].Material);
+			LODInfo.LODMaterialMap.Add(NewMatIndex);
 
 
 			SkeletalMaterials[NewMatIndex].UVChannelData.bInitialized = true;
