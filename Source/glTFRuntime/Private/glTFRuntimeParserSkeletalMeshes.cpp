@@ -3738,7 +3738,15 @@ USkeletalMesh* FglTFRuntimeParser::LoadSkeletalMeshFromRuntimeLODs(const TArray<
 		return nullptr;
 	}
 
-	return FinalizeSkeletalMeshWithLODs(SkeletalMeshContext);
+	// If in the game thread we can directly finalize here.
+	if (IsInGameThread())
+	{
+		return FinalizeSkeletalMeshWithLODs(SkeletalMeshContext);
+	}
+
+	// When not in game thread, re-use the finalizer here without a callback. This finalizer will block until the skeletal mesh is finalized on the gamethread.
+	FglTFRuntimeSkeletalMeshContextFinalizer AsyncFinalizer(SkeletalMeshContext, {});
+	return SkeletalMeshContext->SkeletalMesh;
 }
 
 void FglTFRuntimeParser::LoadSkeletalMeshFromRuntimeLODsAsync(const TArray<FglTFRuntimeMeshLOD>& RuntimeLODs, const int32 SkinIndex, const FglTFRuntimeSkeletalMeshAsync& AsyncCallback, const FglTFRuntimeSkeletalMeshConfig& SkeletalMeshConfig)
