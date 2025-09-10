@@ -1535,7 +1535,7 @@ struct FglTFRuntimeSkeletalMeshContext : public FGCObject
 			}
 		}
 #endif
-		SkeletalMesh = NewObject<USkeletalMesh>(Outer, NAME_None, Flags);
+		SkeletalMesh = NewObject<USkeletalMesh>(Outer, MakeUniqueObjectName(Outer, USkeletalMesh::StaticClass(), TEXT("glTFRuntimeSkeletalMesh"), EUniqueObjectNameOptions::None), Flags);
 		SkeletalMesh->NeverStream = true;
 		BoundingBox = FBox(EForceInit::ForceInitToZero);
 		SkinIndex = -1;
