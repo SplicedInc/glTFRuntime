@@ -400,9 +400,8 @@ USkeletalMesh* FglTFRuntimeParser::CreateSkeletalMeshFromLODs(TSharedRef<FglTFRu
 			LodRenderData->StaticVertexBuffers.ColorVertexBuffer.Init(NumIndices);
 		}
 
-		int32 NumBones = RefSkeleton.GetNum();
-
-		for (int32 BoneIndex = 0; BoneIndex < NumBones; BoneIndex++)
+		int32 NumRealBones = RefSkeleton.GetRawBoneNum();
+		for (int32 BoneIndex = 0; BoneIndex < NumRealBones; BoneIndex++)
 		{
 			LodRenderData->RequiredBones.Add(BoneIndex);
 			LodRenderData->ActiveBoneIndices.Add(BoneIndex);
@@ -549,7 +548,7 @@ USkeletalMesh* FglTFRuntimeParser::CreateSkeletalMeshFromLODs(TSharedRef<FglTFRu
 								}
 								else
 								{
-									BoneIndex = RefSkeleton.FindBoneIndex(BoneMapInUse[Joints[j]]);
+									BoneIndex = RefSkeleton.FindRawBoneIndex(BoneMapInUse[Joints[j]]);
 									BonesCacheInUse.Add(Joints[j], BoneIndex);
 								}
 
@@ -628,7 +627,7 @@ USkeletalMesh* FglTFRuntimeParser::CreateSkeletalMeshFromLODs(TSharedRef<FglTFRu
 				TotalVertexIndex++;
 			}
 
-			for (int32 BoneIndex = 0; BoneIndex < NumBones; BoneIndex++)
+			for (int32 BoneIndex = 0; BoneIndex < NumRealBones; BoneIndex++)
 			{
 				MeshSection.BoneMap.Add(BoneIndex);
 			}
@@ -822,7 +821,7 @@ USkeletalMesh* FglTFRuntimeParser::CreateSkeletalMeshFromLODs(TSharedRef<FglTFRu
 #else
 		LodRenderData->SkinWeightVertexBuffer.SetMaxBoneInfluences(MaxBoneInfluences > 0 ? MaxBoneInfluences : 1);
 
-		LodRenderData->SkinWeightVertexBuffer.SetUse16BitBoneIndex(NumBones > MAX_uint8);
+		LodRenderData->SkinWeightVertexBuffer.SetUse16BitBoneIndex(NumRealBones > MAX_uint8);
 #if ENGINE_MAJOR_VERSION >= 5 && ENGINE_MINOR_VERSION > 1
 		LodRenderData->SkinWeightVertexBuffer.SetUse16BitBoneWeight(bUseHighPrecisionWeights);
 #endif
